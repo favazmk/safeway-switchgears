@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local screenshots
+.playwright-mcp/
+
+# unused brochure source photos (local only)
+/brochure-assets/
