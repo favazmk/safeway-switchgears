@@ -353,11 +353,18 @@ function FinalCopy() {
         </div>
       </div>
       <p
-        className="display mt-4 text-center text-[24vw] leading-[0.78] font-semibold tracking-[-0.07em] select-none md:mt-2"
+        // At this tight leading the "y" descender hangs ~0.18em below the line box,
+        // past the hero's rounded, overflow-hidden frame; pb gives the tail room.
+        className="display mt-4 pb-[0.2em] text-center text-[24vw] leading-[0.78] font-semibold tracking-[-0.07em] select-none md:mt-2"
         aria-hidden
       >
-        {/* Same fade as the footer wordmark. */}
-        <span className="bg-gradient-to-b from-white via-white/80 to-white/0 bg-clip-text text-transparent">Safeway</span>
+        {/* Same fade as the footer wordmark. background-clip:text only fills glyphs
+            inside the span's box, and the negative tracking ends that box ~0.08em
+            short of the "y" ink, chopping its right arm. Padding widens the painted
+            area to cover the overhang; the matching negative margin keeps layout. */}
+        <span className="-mx-[0.1em] bg-gradient-to-b from-white via-white/80 to-white/0 bg-clip-text px-[0.1em] text-transparent">
+          Safeway
+        </span>
       </p>
     </div>
   );

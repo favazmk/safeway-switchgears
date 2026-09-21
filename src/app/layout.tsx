@@ -45,7 +45,6 @@ export const metadata: Metadata = {
       "LV switchgear & control panel solutions for commercial, industrial and residential projects across the UAE.",
     images: ["/images/og.jpg"],
   },
-  icons: { icon: "/icon.png" },
 };
 
 export const viewport: Viewport = {

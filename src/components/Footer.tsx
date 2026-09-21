@@ -102,10 +102,13 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Giant wordmark */}
+        {/* Giant wordmark. pb keeps the "y" descender inside the overflow-hidden box.
+            background-clip:text only fills glyphs inside the span's box, and the
+            negative tracking ends that box ~0.08em short of the "y" ink, chopping
+            its right arm; the padding/negative-margin pair covers that overhang. */}
         <div className="relative overflow-hidden" aria-hidden>
-          <p className="display pb-[1.5vw] text-center text-[23vw] leading-[0.95] font-semibold tracking-[-0.07em] select-none">
-            <span className="bg-gradient-to-b from-white via-white/80 to-white/0 bg-clip-text text-transparent">
+          <p className="display pb-[0.14em] text-center text-[23vw] leading-[0.95] font-semibold tracking-[-0.07em] select-none">
+            <span className="-mx-[0.1em] bg-gradient-to-b from-white via-white/80 to-white/0 bg-clip-text px-[0.1em] text-transparent">
               Safeway
             </span>
           </p>
