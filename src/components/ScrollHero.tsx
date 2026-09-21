@@ -261,7 +261,9 @@ export default function ScrollHero() {
           <canvas ref={canvasRef} className="absolute inset-0 size-full" aria-hidden />
 
           {/* Legibility scrims */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/10 to-navy/35" />
+          {/* Copy sits in the lower half, over bright factory lights, so the scrim
+              stays dense well up the frame instead of fading out by the middle. */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/95 from-10% via-navy/55 via-45% to-navy/25" />
 
           {/* Story beats */}
           <div className="absolute inset-0">
@@ -274,7 +276,7 @@ export default function ScrollHero() {
                     beatRefs.current[i] = el;
                   }}
                   style={{ opacity: i === 0 ? 1 : 0, visibility: i === 0 ? "visible" : "hidden" }}
-                  className={`absolute inset-x-0 bottom-0 px-5 pb-24 will-change-transform sm:px-8 md:pb-16 lg:px-12 ${
+                  className={`absolute inset-x-0 bottom-0 px-5 pb-24 will-change-transform text-shadow-lg text-shadow-navy/60 sm:px-8 md:pb-16 lg:px-12 ${
                     b.align === "right"
                       ? "md:left-auto md:max-w-2xl md:text-right"
                       : b.align === "center"
@@ -335,7 +337,7 @@ function FinalCopy() {
   return (
     <div className="w-full px-5 pb-6 sm:px-8 lg:px-12">
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <p className="display max-w-md text-[clamp(1.5rem,2.6vw,2.4rem)] leading-[1.05] text-white">
+        <p className="display max-w-md text-[clamp(1.5rem,2.6vw,2.4rem)] leading-[1.05] text-white text-shadow-lg text-shadow-navy/60">
           Powering reliability, <span className="text-volt">distributing trust</span> across the UAE since 1998.
         </p>
         <div className="flex flex-wrap gap-3">
@@ -351,10 +353,11 @@ function FinalCopy() {
         </div>
       </div>
       <p
-        className="display mt-4 text-center text-[24vw] leading-[0.78] font-semibold tracking-[-0.07em] text-white select-none md:mt-2"
+        className="display mt-4 text-center text-[24vw] leading-[0.78] font-semibold tracking-[-0.07em] select-none md:mt-2"
         aria-hidden
       >
-        Safeway
+        {/* Same fade as the footer wordmark. */}
+        <span className="bg-gradient-to-b from-white via-white/80 to-white/0 bg-clip-text text-transparent">Safeway</span>
       </p>
     </div>
   );

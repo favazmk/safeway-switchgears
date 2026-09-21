@@ -3,6 +3,11 @@
  * Converts the hero film into a scroll-scrub frame sequence.
  *
  *   npm run hero -- path/to/video.mp4 [--fps 12] [--start 0] [--end 24]
+ *                   [--mobile portrait.mp4] [--mobile-start 0]
+ *                   [--delogo x:y:w:h] [--mobile-delogo x:y:w:h] [--sharpen 0.8]
+ *
+ * With --mobile, mobile frames come from that portrait video (trimmed by
+ * --mobile-start) instead of a center crop of the desktop film.
  *
  * Outputs to public/hero/:
  *   desktop/0001.webp …   1600px wide
@@ -18,25 +23,47 @@ import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync, copyFileSync
 import { join, resolve } from "node:path";
 
 const args = process.argv.slice(2);
-const input = args.find((a) => !a.startsWith("--") && !/^\d/.test(a));
-const opt = (name, def) => {
+const flag = (name) => {
   const i = args.indexOf(`--${name}`);
-  return i === -1 ? def : Number(args[i + 1]);
+  return i === -1 ? undefined : args[i + 1];
 };
+const opt = (name, def) => (flag(name) === undefined ? def : Number(flag(name)));
+const mobileInput = flag("mobile");
+const input = args.find((a, i) => !a.startsWith("--") && !args[i - 1]?.startsWith("--"));
 
-if (!input || !existsSync(input)) {
-  console.error("Usage: npm run hero -- path/to/video.mp4 [--fps 12] [--start 0] [--end 24]");
+if (!input || !existsSync(input) || (mobileInput && !existsSync(mobileInput))) {
+  console.error(
+    "Usage: npm run hero -- path/to/video.mp4 [--fps 12] [--start 0] [--end 24] [--mobile portrait.mp4] [--mobile-start 0] [--delogo x:y:w:h] [--mobile-delogo x:y:w:h]",
+  );
   process.exit(1);
 }
 
 const fps = opt("fps", 12);
 const start = opt("start", 0);
 const end = opt("end", 0);
+const mobileStart = opt("mobile-start", start);
+// Mild unsharp mask at native size (0 disables). Adds no detail, but the canvas
+// upscale to fill the screen starts from a crisper frame. Enlarging offline
+// instead costs far more decode time for almost no visible gain.
+const sharpen = opt("sharpen", 0.8);
+const sharp = sharpen > 0 ? `,unsharp=5:5:${sharpen}:5:5:0.0` : "";
 const out = resolve("public/hero");
 
-const trim = [...(start ? ["-ss", String(start)] : []), ...(end ? ["-to", String(end)] : [])];
+const trimArgs = (s) => [...(s ? ["-ss", String(s)] : []), ...(end ? ["-to", String(end)] : [])];
 
-function ffmpeg(dir, vf, quality) {
+// Generator watermarks sit at a fixed spot, so one delogo pass removes them.
+// Box is x:y:w:h in SOURCE pixels, which is why it runs before any crop/scale.
+const delogo = (box) => {
+  if (!box) return "";
+  const [x, y, w, h] = box.split(":").map(Number);
+  if ([x, y, w, h].some((v) => !Number.isFinite(v))) {
+    console.error("--delogo / --mobile-delogo expect x:y:w:h in source pixels");
+    process.exit(1);
+  }
+  return `delogo=x=${x}:y=${y}:w=${w}:h=${h},`;
+};
+
+function ffmpeg(dir, vf, quality, src = input, trim = trimArgs(start)) {
   const target = join(out, dir);
   rmSync(target, { recursive: true, force: true });
   mkdirSync(target, { recursive: true });
@@ -44,8 +71,8 @@ function ffmpeg(dir, vf, quality) {
     "ffmpeg",
     [
       "-hide_banner", "-loglevel", "error", "-y",
-      ...trim, "-i", input,
-      "-an", "-vf", `fps=${fps},${vf}`,
+      ...trim, "-i", src,
+      "-an", "-vf", `fps=${fps},${vf}${sharp}`,
       "-c:v", "libwebp", "-quality", String(quality), "-compression_level", "6",
       join(target, "%04d.webp"),
     ],
@@ -57,9 +84,12 @@ function ffmpeg(dir, vf, quality) {
 
 mkdirSync(out, { recursive: true });
 console.log(`Extracting desktop frames @ ${fps}fps…`);
-const frames = ffmpeg("desktop", "scale=1600:-2:flags=lanczos", 72);
+const frames = ffmpeg("desktop", `${delogo(flag("delogo"))}scale=min(1600\\,iw):-2:flags=lanczos`, 82);
 console.log(`Extracting mobile frames…`);
-const mobileFrames = ffmpeg("mobile", "crop=min(iw\\,ih*4/5):ih,scale=900:-2:flags=lanczos", 68);
+// A dedicated portrait video is used as-is; otherwise the desktop film is center-cropped.
+const mobileFrames = mobileInput
+  ? ffmpeg("mobile", `${delogo(flag("mobile-delogo"))}scale=720:-2:flags=lanczos`, 80, mobileInput, trimArgs(mobileStart))
+  : ffmpeg("mobile", `${delogo(flag("delogo"))}crop=min(iw\\,ih*4/5):ih,scale=900:-2:flags=lanczos`, 68);
 
 copyFileSync(join(out, "desktop", "0001.webp"), join(out, "poster.webp"));
 copyFileSync(join(out, "desktop", `${String(frames).padStart(4, "0")}.webp`), join(out, "poster-end.webp"));

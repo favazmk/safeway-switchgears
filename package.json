@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "hero": "node scripts/build-hero-frames.mjs"
+    "hero": "node scripts/build-hero-frames.mjs",
+    "hero:build": "node scripts/build-hero-frames.mjs public/hero/hero-scroll-desktop.mp4 --fps 24 --delogo 1130:570:60:60 --mobile public/hero/hero-scroll-mobile.mp4 --mobile-start 0.25 --mobile-delogo 570:1130:60:60"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
