@@ -116,7 +116,15 @@ export default function Footer() {
 
         <div className="container-x relative flex flex-col gap-2 border-t border-white/10 py-5 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {company.name}
+            © {new Date().getFullYear()} {company.name} | website by{" "}
+            <a
+              href="https://webbranding.ae"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-purple-500"
+            >
+              web Branding
+            </a>
           </p>
           <p dir="rtl" lang="ar">
             سيفواي لتجارة مفاتيح الكهربائية ذ.م.م

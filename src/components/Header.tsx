@@ -37,21 +37,14 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between gap-4 pr-2 pl-4 sm:pl-5">
           <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Safeway home">
             <Image
-              src="/images/logo-mark-color.png"
-              alt=""
+              src="/images/brands/safeway_horizontal_logo_icon_closer.svg"
+              alt="Safeway"
               width={264}
               height={232}
               priority
-              className="h-8 w-auto"
+              className="h-10 w-auto"
             />
-            <span className="leading-none">
-              <span className="display block text-[1.35rem] font-semibold tracking-[-0.04em] text-ink">
-                Safeway
-              </span>
-              <span className="mt-1 block text-[0.56rem] font-medium tracking-[0.14em] text-muted uppercase">
-                Electric Switchgear
-              </span>
-            </span>
+
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
@@ -59,7 +52,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-full px-4 py-2 text-[0.92rem] transition-colors ${
+                className={`rounded-full px-4 py-2 text-[1.05rem] transition-colors ${
                   isActive(item.href)
                     ? "bg-mist font-medium text-brand"
                     : "text-ink-soft hover:bg-cloud hover:text-ink"
