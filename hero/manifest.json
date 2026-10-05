@@ -1,0 +1,15 @@
+{
+  "frames": 234,
+  "ext": "webp",
+  "poster": "/hero/poster.webp",
+  "desktop": {
+    "dir": "/hero/desktop/",
+    "width": 1280,
+    "height": 720
+  },
+  "mobile": {
+    "dir": "/hero/mobile/",
+    "width": 720,
+    "height": 1280
+  }
+}
