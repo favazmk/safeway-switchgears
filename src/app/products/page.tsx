@@ -4,6 +4,7 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import Icon from "@/components/Icon";
 import CtaBand from "@/components/CtaBand";
+import RetailShowcase from "@/components/RetailShowcase";
 import ProductStage from "@/components/motion/ProductStage";
 import DriftText from "@/components/motion/DriftText";
 import { controlPanels, products } from "@/lib/site";
@@ -139,6 +140,7 @@ export default function ProductsPage() {
       </section>
 
       <div className="h-3 sm:h-5" />
+      <RetailShowcase />
       <CtaBand image="/images/cta/products.jpg" />
     </>
   );

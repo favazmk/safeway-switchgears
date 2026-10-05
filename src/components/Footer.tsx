@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Icon from "@/components/Icon";
-import { company, locations, nav } from "@/lib/site";
+import { company, locations, nav, retail } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -58,6 +58,17 @@ export default function Footer() {
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <a
+                    href={retail.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-volt transition hover:text-white"
+                  >
+                    Shop online
+                    <Icon name="arrow" className="size-3.5 -rotate-45" />
+                  </a>
+                </li>
               </ul>
             </div>
 

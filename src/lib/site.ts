@@ -13,6 +13,28 @@ export const company = {
   ],
 };
 
+// Group retail site: ready-stock electrical products catalogue.
+export const retail = {
+  name: "Safeway Technical",
+  label: "safewaytechnical.com",
+  url: "https://safewaytechnical.com/",
+  catalogue: "https://safewaytechnical.com/our-products/",
+  categories: [
+    { slug: "automation-and-switchgears", name: "Automation & Switchgears" },
+    { slug: "electric-cables", name: "Electric Cables" },
+    { slug: "power-supply-and-transformers", name: "Power Supply & Transformers" },
+    { slug: "electrical-enclosures", name: "Electrical Enclosures" },
+    { slug: "cable-management", name: "Cable Management" },
+    { slug: "connectors-and-sockets", name: "Connectors & Sockets" },
+    { slug: "earthing-accessories", name: "Earthing Accessories" },
+    { slug: "lighting-and-fittings", name: "Lighting & Fittings" },
+    { slug: "exhaust-and-cooling-fans", name: "Exhaust & Cooling Fans" },
+    { slug: "marine-explosion-proof-products", name: "Marine & Explosion Proof" },
+    { slug: "pipe-fittings-and-accessories", name: "Pipe Fittings & Accessories" },
+    { slug: "tools-and-instrumentation", name: "Tools & Instrumentation" },
+  ].map((c) => ({ ...c, href: `https://safewaytechnical.com/catalogue/category/${c.slug}/` })),
+};
+
 export type Location = {
   kind: string;
   name: string;

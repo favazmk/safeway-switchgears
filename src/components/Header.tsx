@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { company, nav } from "@/lib/site";
+import { company, nav, retail } from "@/lib/site";
 import Icon from "@/components/Icon";
 
 export default function Header() {
@@ -61,6 +61,15 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
+            <a
+              href={retail.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[1.05rem] text-ink-soft transition-colors hover:bg-cloud hover:text-ink"
+            >
+              Shop
+              <Icon name="arrow" className="size-3.5 -rotate-45" />
+            </a>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -121,6 +130,20 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href={retail.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="display flex items-center justify-between rounded-2xl px-3 py-3.5 text-2xl text-ink"
+                >
+                  <span>
+                    Shop
+                    <span className="mt-0.5 block font-sans text-sm text-muted">{retail.label}</span>
+                  </span>
+                  <Icon name="arrow" className="size-5 -rotate-45 text-muted" />
+                </a>
+              </li>
               <li className="mt-2 grid grid-cols-2 gap-2">
                 <Link href="/contact" className="btn btn-primary">
                   Get a quote

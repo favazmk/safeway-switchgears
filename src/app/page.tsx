@@ -6,6 +6,7 @@ import BrandMarquee from "@/components/BrandMarquee";
 import SectorCards from "@/components/SectorCards";
 import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
+import RetailShowcase from "@/components/RetailShowcase";
 import FillText from "@/components/motion/FillText";
 import PanelAssembly from "@/components/motion/PanelAssembly";
 import SolutionsRail from "@/components/motion/SolutionsRail";
@@ -163,6 +164,7 @@ export default function Home() {
         </div>
       </section>
 
+      <RetailShowcase />
       <CtaBand image="/images/cta/home.jpg" />
     </>
   );
