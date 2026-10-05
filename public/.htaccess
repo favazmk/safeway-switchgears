@@ -1,0 +1,2 @@
+# Apache (Hostinger) only; Vercel ignores this file.
+ErrorDocument 404 /404.html
